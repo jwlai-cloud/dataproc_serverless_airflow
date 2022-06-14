@@ -3,9 +3,10 @@ from pyspark.sql.dataframe import DataFrame
 
 
 def retrieve_files(known_args):
-    # Files are now received from Airflow
-    files_received = ['gs://' + known_args.data_bucket + '/' + file for file in known_args.file_names.split(',')]
-    return files_received
+    return [
+        f'gs://{known_args.data_bucket}/{file}'
+        for file in known_args.file_names.split(',')
+    ]
 
 def read_file(spark: SparkSession,
               files: str) -> DataFrame:
